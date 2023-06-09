@@ -1,0 +1,53 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://localhost:3306/nulink-nft?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: root
+    password: 123456
+    hikari:
+      minimum-idle: 5
+      idle-timeout: 600000
+      maximum-pool-size: 100
+      auto-commit: true
+      pool-name: XCarHikariCP
+      max-lifetime: 28770000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+      transaction:
+        rollback-on-commit-failure: true
+
+contracts:
+  start: 8750000
+  step: 500
+  enabled: true
+  contractList:
+    -
+      name: 'BlindBox'
+      address: '0x5c94Df334e4DdfD981E5277cE6732963D1b9005e'
+      enabled: true
+    -
+      name: 'AddrController'
+      address: '0x543290cf8C5DC7309016024D6Dd4064ee7db23b0'
+      enabled: false
+    -
+      name: 'Recommend'
+      address: '0xE59EA060d32aCD86D29063EC5cAeB9ed0ae88605'
+      enabled: false
+    -
+      name: 'EncloNFT'
+      address: '0x96b74B568E5a6AA44A97329F2aE5932FBE68bCD4'
+      enabled: false
+    -
+      name: 'ZK'
+      address: '0x854Ac911cD15f32bf38a4Eb2fA66c14ea8C89bF7'
+      enabled: false
+    -
+      name: 'Gain'
+      address: '0xF14c2931B2f5b14606F42D0feC91c3A817FA337C'
+      enabled: false
+
+web3j:
+  client-address: https://data-seed-prebsc-1-s2.binance.org:8545
+  admin-client: true # to manage accounts, enable the admin client
+  httpTimeoutSeconds: 35
