@@ -13,6 +13,7 @@ public class ContractOffset{
     protected long id;
     private String contractAddress;
     private String contractName;
+    @Column(name = "block_offset", columnDefinition = "decimal(19,0)", nullable = false)
     private BigInteger blockOffset;
     private Timestamp recordedAt;
 

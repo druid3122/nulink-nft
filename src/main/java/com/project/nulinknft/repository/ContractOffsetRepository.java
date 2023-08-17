@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ContractOffsetRepository extends JpaRepository<ContractOffset, Long> {
 
-    ContractOffset findByContractName(String contractName);
+    ContractOffset findByContractAddress(String contractAddress);
 }

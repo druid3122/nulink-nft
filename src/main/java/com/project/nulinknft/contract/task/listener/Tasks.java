@@ -69,7 +69,7 @@ public class Tasks {
     }
 
     @Async
-    @Scheduled(cron = "0/6 * * * * ?")
+    //@Scheduled(cron = "0/6 * * * * ?")
     public void scanBlockEventDelay3() {
 
         synchronized (blockListenerDelay3TaskKey) {
@@ -83,12 +83,7 @@ public class Tasks {
         logger.info("开始执行 Delay3区块链事件扫描任务");
         try {
 
-            //TODO：等待将来 "Game2"，"Game3" 上线时，Game就不用扫了，下线了。需要屏蔽 enableTaskNameLists.add("Game"); 这一行
-            Set<String> enableTaskNameLists = new HashSet<>();
-            enableTaskNameLists.add("Game");
-            enableTaskNameLists.add("Game2"); // 注意配置文件enabled同时必须设置为true, 才能真正启用
-            enableTaskNameLists.add("Game3"); // 注意配置文件enabled同时必须设置为true, 才能真正启用
-            blockEventDelayListener3.start(3, enableTaskNameLists, null);
+            blockEventDelayListener3.start(3, null, null);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -99,9 +94,8 @@ public class Tasks {
         logger.info("结束执行 Delay3区块链事件扫描任务");
     }
 
-    //时间不要乱改，与 scanBlockEvent 一致，本来就延迟了15个块，大概75秒, 10个块时间太短.
     @Async
-    @Scheduled(cron = "0/6 * * * * ?")
+    //@Scheduled(cron = "0/6 * * * * ?")
     public void scanBlockEventDelay15() {
 
         synchronized (blockListenerDelayTaskKey) {

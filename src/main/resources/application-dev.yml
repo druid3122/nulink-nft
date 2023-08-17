@@ -2,7 +2,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://localhost:3306/nulink-nft?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/nulink_nft?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
     username: root
     password: 123456
     hikari:
@@ -16,38 +16,50 @@ spring:
       connection-test-query: SELECT 1
       transaction:
         rollback-on-commit-failure: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
 
 contracts:
-  start: 8750000
+  start: 30613221
   step: 500
   enabled: true
   contractList:
     -
       name: 'BlindBox'
-      address: '0x5c94Df334e4DdfD981E5277cE6732963D1b9005e'
+      address: '0xB8d692eAAAaC71684079032410855888A8C1d448'
       enabled: true
     -
       name: 'AddrController'
-      address: '0x543290cf8C5DC7309016024D6Dd4064ee7db23b0'
+      address: '0x96D0c195d39915b43dD7cED865597101FbCed4B0'
       enabled: false
     -
       name: 'Recommend'
-      address: '0xE59EA060d32aCD86D29063EC5cAeB9ed0ae88605'
+      address: '0x05AaB61b90d8272CF261063130FD9a5f286CF8cD'
       enabled: false
     -
       name: 'EncloNFT'
-      address: '0x96b74B568E5a6AA44A97329F2aE5932FBE68bCD4'
+      address: '0x3cdD31F758AFF03055Dc2B991564f118d6faeDCd'
       enabled: false
     -
       name: 'ZK'
-      address: '0x854Ac911cD15f32bf38a4Eb2fA66c14ea8C89bF7'
+      address: '0x645ea2939D46d4848bAd587FD85122A046C6a44B'
       enabled: false
     -
       name: 'Gain'
-      address: '0xF14c2931B2f5b14606F42D0feC91c3A817FA337C'
+      address: '0xf98386d94EF06D02Cbc0FB0cAeDc5Ab9cDF46e78'
       enabled: false
 
 web3j:
-  client-address: https://data-seed-prebsc-1-s2.binance.org:8545
+  client-address: http://data-seed-prebsc-1-s2.binance.org:8545
   admin-client: true # to manage accounts, enable the admin client
   httpTimeoutSeconds: 35
+
+knife4j:
+  enable: true
+  setting:
+    language: en-US

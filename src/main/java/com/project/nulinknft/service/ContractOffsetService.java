@@ -14,8 +14,8 @@ public class ContractOffsetService {
         this.contractOffsetRepository = contractOffsetRepository;
     }
 
-    public ContractOffset findByContractName(String contractName){
-        return contractOffsetRepository.findByContractName(contractName);
+    public ContractOffset findByContractAddress(String contractAddress){
+        return contractOffsetRepository.findByContractAddress(contractAddress);
     }
 
     @Transactional

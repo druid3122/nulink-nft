@@ -2,6 +2,7 @@ package com.project.nulinknft.contract.event.listener.impl;
 
 import com.project.nulinknft.config.ContractsConfig;
 import com.project.nulinknft.contract.event.listener.consumer.BlindBoxEventHandler;
+import com.project.nulinknft.contract.event.listener.consumer.NFTEventHandler;
 import com.project.nulinknft.contract.event.listener.filter.events.ContractsEventEnum;
 import com.project.nulinknft.contract.event.listener.filter.events.impl.ContractsEventBuilder;
 import com.project.nulinknft.entity.ContractOffset;
@@ -22,6 +23,7 @@ import org.web3j.protocol.core.methods.response.Log;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -45,17 +47,15 @@ public class BlockEventListener {
     @Autowired
     private ContractOffsetService contractOffsetService;
 
-    @Value("${abey.contracts.start}")
+    @Value("${contracts.start}")
     public String scannerContractStart;
 
     private Map<String, Event> topicAndContractAddr2EventMap = new HashMap<>();
 
-    // Method format must be: static void functionName(Log)
-    //https://www.wangsai.site/2019/12/06/eth-event-topic/
     private Map<String, Method> topicAndContractAddr2CallBackMap = new HashMap<>();
 
 
-    @Value("${abey.contracts.enabled}")
+    @Value("${contracts.enabled}")
     private boolean enabled;
 
 
@@ -116,24 +116,40 @@ public class BlockEventListener {
 
         ContractsConfig.ContractInfo blindBoxCI = contractsConfig.getContractInfo("BlindBox");
 
-        // 如果enablesTaskNames和disableTaskNames中有相同的任务名称， disableTaskNames 优先
-
         if (isTaskEnable(enablesTaskNames, disableTaskNames, blindBoxCI.getName()) && blindBoxCI.getEnabled()) {
-            //blindBox event
             Event eventBuyBlindBox = new ContractsEventBuilder().build(ContractsEventEnum.BUY_BLIND_BOX);
             String topicEventBuyBlindBox = EventEncoder.encode(eventBuyBlindBox).toLowerCase();
             topicAndContractAddr2EventMap.put(topicEventBuyBlindBox + "_" + blindBoxCI.getAddress(), eventBuyBlindBox);
             topicAndContractAddr2CallBackMap.put(topicEventBuyBlindBox + "_" + blindBoxCI.getAddress(), BlindBoxEventHandler.class.getMethod("descBuyBox", Log.class /*,secondParameterTypeClass.class*/));
         }
 
+        ContractsConfig.ContractInfo encloNFTCI = contractsConfig.getContractInfo("EncloNFT");
+
+        if (isTaskEnable(enablesTaskNames, disableTaskNames, encloNFTCI.getName()) && encloNFTCI.getEnabled()) {
+            Event eventTransfer = new ContractsEventBuilder().build(ContractsEventEnum.TRANSFER);
+            String topicEventTransfer = EventEncoder.encode(eventTransfer).toLowerCase();
+            topicAndContractAddr2EventMap.put(topicEventTransfer + "_" + encloNFTCI.getAddress(), eventTransfer);
+            topicAndContractAddr2CallBackMap.put(topicEventTransfer + "_" + encloNFTCI.getAddress(), NFTEventHandler.class.getMethod("descTransfer", Log.class /*,secondParameterTypeClass.class*/));
+
+            Event eventMint = new ContractsEventBuilder().build(ContractsEventEnum.MINT);
+            String topicEventMint = EventEncoder.encode(eventMint).toLowerCase();
+            topicAndContractAddr2EventMap.put(topicEventMint + "_" + encloNFTCI.getAddress(), eventMint);
+            topicAndContractAddr2CallBackMap.put(topicEventMint + "_" + encloNFTCI.getAddress(), NFTEventHandler.class.getMethod("descMint", Log.class/*,secondParameterTypeClass.class*/));
+        }
+
     }
 
     public void blocksEventScanner(Integer delayBlocks) throws InterruptedException {
 
-        ContractOffset contractOffset = contractOffsetService.findByContractName("Delay" + delayBlocks + "_" + BLOCK_CONTRACT_FLAG);
-        BigInteger start = contractOffset.getBlockOffset();
-        if (ObjectUtils.isEmpty(start) || start.compareTo(BigInteger.ZERO) == 0) {
+        ContractOffset contractOffset = contractOffsetService.findByContractAddress("Delay" + delayBlocks + "_" + BLOCK_CONTRACT_FLAG);
+        BigInteger start;
+        if (contractOffset == null) {
             start = new BigInteger(scannerContractStart);
+        } else {
+            start = contractOffset.getBlockOffset();
+            if (ObjectUtils.isEmpty(start) || start.compareTo(BigInteger.ZERO) == 0) {
+                start = new BigInteger(scannerContractStart);
+            }
         }
 
         logger.info("Delay" + delayBlocks + "_" + "scan all nft albums run() selectMonitorState : " + start);
@@ -152,8 +168,6 @@ public class BlockEventListener {
                 logger.info("Delay" + delayBlocks + "_" + "scan all nft albums run() return  now is Zero");
                 break;
             }
-
-            // start = new BigInteger("10738436"); //for test
 
             BigInteger end = start.add(STEP).compareTo(now) > 0 ? now : start.add(STEP);
 
@@ -199,7 +213,6 @@ public class BlockEventListener {
 
             String contractAddress = log.getAddress().toLowerCase(); //合约地址
 
-            // 注意只有getTopics().get(0) 是真正的订阅主题
             String topic = null;
             try {
                 topic = log.getTopics().get(0).toLowerCase();
@@ -207,14 +220,11 @@ public class BlockEventListener {
                 continue;
             }
 
-            //获取监听事件topic
             String topicAddress = topic + "_" + contractAddress;
-            //Event event = topic2EventMap.get(topicAddress);
             Method callBackMethod = topicAndContractAddr2CallBackMap.get(topicAddress);
             if (null == callBackMethod) {
                 continue;
             }
-            //
             try {
                 //https://stackoverflow.com/questions/4480334/how-to-call-a-method-stored-in-a-hashmap-java
                 // Method format must be: static void functionName(Log, Album)
@@ -233,11 +243,15 @@ public class BlockEventListener {
 
         String contractAddress = "Delay" + delayBlocks + "_" + BLOCK_CONTRACT_FLAG;
 
-        ContractOffset contractOffset = contractOffsetService.findByContractName(contractAddress);
+        ContractOffset contractOffset = contractOffsetService.findByContractAddress(contractAddress);
         if (null == contractOffset) {
-            contractOffset.setBlockOffset(offset);
-            contractOffsetService.update(contractOffset);
+            contractOffset = new ContractOffset();
+            contractOffset.setContractAddress(contractAddress);
+            contractOffset.setContractName("ALL_CONTRACTS");
+            contractOffset.setRecordedAt(new Timestamp(new Date().getTime()));
         }
+        contractOffset.setBlockOffset(offset);
+        contractOffsetService.update(contractOffset);
     }
 
 }

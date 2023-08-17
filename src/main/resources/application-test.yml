@@ -2,7 +2,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://localhost:3306/nulink-nft?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/nulink_nft?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
     username: root
     password: 123456
     hikari:
@@ -16,23 +16,50 @@ spring:
       connection-test-query: SELECT 1
       transaction:
         rollback-on-commit-failure: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
 
 contracts:
-  start: 8750000
+  start: 30613221
   step: 500
   enabled: true
   contractList:
     -
-      name: 'XCarNFT'
-      address: '0xdc479220ad98B5eaac308218Eb1d9a6d222F6fe0'
+      name: 'BlindBox'
+      address: '0xB8d692eAAAaC71684079032410855888A8C1d448'
       enabled: true
     -
-      name: 'XracerStakingPool'
-      address: '0x829e62f57e243180605858548e0051D5582c3A51'
-      enabled: true
+      name: 'AddrController'
+      address: '0x96D0c195d39915b43dD7cED865597101FbCed4B0'
+      enabled: false
+    -
+      name: 'Recommend'
+      address: '0x05AaB61b90d8272CF261063130FD9a5f286CF8cD'
+      enabled: false
+    -
+      name: 'EncloNFT'
+      address: '0x3cdD31F758AFF03055Dc2B991564f118d6faeDCd'
+      enabled: false
+    -
+      name: 'ZK'
+      address: '0x645ea2939D46d4848bAd587FD85122A046C6a44B'
+      enabled: false
+    -
+      name: 'Gain'
+      address: '0xf98386d94EF06D02Cbc0FB0cAeDc5Ab9cDF46e78'
+      enabled: false
 
 web3j:
-  client-address: https://interrpc.abeychain.com
+  client-address: https://data-seed-prebsc-1-s1.binance.org:8545
   admin-client: true # to manage accounts, enable the admin client
   httpTimeoutSeconds: 35
 
+knife4j:
+  enable: true
+  setting:
+    language: en-US

@@ -5,6 +5,7 @@ import com.project.nulinknft.contract.event.listener.filter.events.EventBuilder;
 import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.*;
 import org.web3j.abi.datatypes.generated.Uint256;
+import org.web3j.abi.datatypes.generated.Uint8;
 
 import java.util.Arrays;
 
@@ -18,6 +19,10 @@ public class ContractsEventBuilder implements EventBuilder<ContractsEventEnum> {
         switch (type) {
             case BUY_BLIND_BOX:
                 return getBuyBlindBoxEvent();
+            case MINT:
+                return getMintEvent();
+            case TRANSFER:
+                return getTransferEvent();
             default:
                 return null;
         }
@@ -44,6 +49,40 @@ public class ContractsEventBuilder implements EventBuilder<ContractsEventEnum> {
 
                         // _recommender
                         new TypeReference<Address>(false) {
+                        }
+                ));
+    }
+
+    public static Event getMintEvent() {
+        return new Event("Mint",
+                Arrays.asList(
+                        // _owner
+                        new TypeReference<Address>(false) {
+                        },
+
+                        // _tokenID
+                        new TypeReference<Uint256>(false) {
+                        },
+
+                        // _airdropLevel
+                        new TypeReference<Uint8>(false) {
+                        }
+                ));
+    }
+
+    public static Event getTransferEvent() {
+        return new Event("Transfer",
+                Arrays.asList(
+                        // from
+                        new TypeReference<Address>(true) {
+                        },
+
+                        // to
+                        new TypeReference<Address>(true) {
+                        },
+
+                        // tokenId
+                        new TypeReference<Uint256>(true) {
                         }
                 ));
     }

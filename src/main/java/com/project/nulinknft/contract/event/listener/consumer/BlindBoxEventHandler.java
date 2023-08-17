@@ -35,6 +35,12 @@ public class BlindBoxEventHandler {
 
         if (!CollectionUtils.isEmpty(args)) {
             BlindBox box = new BlindBox();
+            box.setTxHash(evLog.getTransactionHash());
+            box.setUser(args.get(0).getValue().toString());
+            box.setBoxAmount(Integer.parseInt(args.get(1).getValue().toString()));
+            box.setPayAmount(Integer.parseInt(args.get(2).getValue().toString()));
+            box.setTime(args.get(3).getValue().toString());
+            box.setRecommender(args.get(4).getValue().toString());
             blindBoxService.create(box);
         } else if (!CollectionUtils.isEmpty(topics)) {
             String from = EthLogsParser.hexToAddress(topics.get(1));
