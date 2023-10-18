@@ -10,7 +10,7 @@ import lombok.Data;
 @Table(name = "referrer")
 public class Referrer extends BaseEntity{
 
-    @Column(name = "tx_hash")
+    @Column(name = "tx_hash", unique = true)
     private String txHash;
 
     @Column(name = "referrer_address")

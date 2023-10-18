@@ -4,6 +4,9 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
-
+  security:
+    user:
+      name: nft@nulink.org
+      password: nft888@nulink.org
 server:
-  port: 8088
+  port: 8089

@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Table(name = "blind_box")
 public class BlindBox extends BaseEntity {
 
-    @Column(name = "tx_hash", nullable = false)
+    @Column(name = "tx_hash", nullable = false, unique = true)
     private String txHash;
 
     @Column(name = "user", nullable = false)
@@ -15,7 +15,7 @@ public class BlindBox extends BaseEntity {
     private int boxAmount;
 
     @Column(name = "pay_amount")
-    private int payAmount;
+    private String payAmount;
 
     @Column(name = "time")
     private String time;
@@ -47,11 +47,11 @@ public class BlindBox extends BaseEntity {
         this.boxAmount = boxAmount;
     }
 
-    public int getPayAmount() {
+    public String getPayAmount() {
         return payAmount;
     }
 
-    public void setPayAmount(int payAmount) {
+    public void setPayAmount(String payAmount) {
         this.payAmount = payAmount;
     }
 

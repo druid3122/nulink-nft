@@ -31,27 +31,27 @@ contracts:
   contractList:
     -
       name: 'BlindBox'
-      address: '0xB8d692eAAAaC71684079032410855888A8C1d448'
+      address: '0x00c06AF011FAfEd9228C1abc481391DCf703e4bC'
       enabled: true
     -
       name: 'AddrController'
-      address: '0x96D0c195d39915b43dD7cED865597101FbCed4B0'
+      address: '0x1CC1a9292E9FCf2F3E36fe2A062FC2362b6ed555'
       enabled: false
     -
       name: 'Recommend'
-      address: '0x05AaB61b90d8272CF261063130FD9a5f286CF8cD'
+      address: '0x3BbE2A32F650980E4C69896C6aDD02ba9Daa5E56'
       enabled: false
     -
       name: 'EncloNFT'
-      address: '0x3cdD31F758AFF03055Dc2B991564f118d6faeDCd'
+      address: '0xC230B5EA63D76BeB7de92dC7138477Ce96eF90C7'
       enabled: false
     -
       name: 'ZK'
-      address: '0x645ea2939D46d4848bAd587FD85122A046C6a44B'
+      address: '0x291f789Ab72A53eb6a2F10cf964AA7a3E46D8511'
       enabled: false
     -
       name: 'Gain'
-      address: '0xf98386d94EF06D02Cbc0FB0cAeDc5Ab9cDF46e78'
+      address: '0xEF1aD8dADBa9d84d9d4ceb85DA61fBeB43611779'
       enabled: false
 
 web3j:

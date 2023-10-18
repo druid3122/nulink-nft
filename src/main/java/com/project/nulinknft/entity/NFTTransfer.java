@@ -8,7 +8,7 @@ import javax.persistence.Table;
 @Table(name = "nft_transfer")
 public class NFTTransfer extends BaseEntity{
 
-    @Column(name = "tx_hash")
+    @Column(name = "tx_hash", unique = true)
     private String txHash;
 
     @Column(name = "from_address")

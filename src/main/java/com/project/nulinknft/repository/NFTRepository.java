@@ -13,4 +13,6 @@ public interface NFTRepository  extends JpaRepository<NFT, Long> {
 
     List<NFT> findAllByOwnerOrderByCreateTime(String owner);
 
+    List<NFT> findAllByOwnerAndIsDecryptedOrderByCreateTime(String owner, boolean isDecrypted);
+
 }

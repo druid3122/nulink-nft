@@ -176,7 +176,6 @@ public class BlockEventListener {
 
             filterEvents(delayBlocks, start, end);
 
-
             start = end;
 
             updateOffset(delayBlocks, end);

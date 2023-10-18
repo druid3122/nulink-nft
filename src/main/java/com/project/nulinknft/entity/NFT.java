@@ -13,10 +13,16 @@ public class NFT extends BaseEntity{
 
     private String owner;
 
+    @Column(name = "token_id", unique = true)
     private int tokenId;
 
     private int airdropLevel;
 
+    @Column(name = "is_decrypted", columnDefinition = " bit DEFAULT 0 ")
+    private boolean isDecrypted;
+
+    @Column(name = "content", length = 1000)
+    private String content;
 
     public String getTxHash() {
         return txHash;
@@ -48,5 +54,21 @@ public class NFT extends BaseEntity{
 
     public void setAirdropLevel(int airdropLevel) {
         this.airdropLevel = airdropLevel;
+    }
+
+    public boolean isDecrypted() {
+        return isDecrypted;
+    }
+
+    public void setDecrypted(boolean decrypted) {
+        isDecrypted = decrypted;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }

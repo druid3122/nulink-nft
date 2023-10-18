@@ -25,4 +25,12 @@ public class NFTService {
     public List<NFT> findByOwner(String owner){
         return nftRepository.findAllByOwnerOrderByCreateTime(owner);
     }
+
+    public List<NFT> findByOwnerIsDecrypted(String owner, boolean Decrypted){
+        return nftRepository.findAllByOwnerAndIsDecryptedOrderByCreateTime(owner, Decrypted);
+    }
+
+    public NFT findByTokenId(Integer tokenId){
+        return nftRepository.findByTokenId(tokenId);
+    }
 }

@@ -1,5 +1,6 @@
 package com.project.nulinknft.controller;
 
+import com.project.nulinknft.dto.BaseResponse;
 import com.project.nulinknft.dto.UserDTO;
 import com.project.nulinknft.entity.User;
 import com.project.nulinknft.exception.EntityNotFoundException;
@@ -24,29 +25,29 @@ public class UserController {
     }
 
     @GetMapping("findByAddress")
-    public ResponseEntity<UserDTO> findByAddress(@RequestParam("address") String address){
+    public BaseResponse<UserDTO> findByAddress(@RequestParam("address") String address){
         User user = userService.findByAddress(address);
         UserDTO userDTO = new UserDTO();
         BeanUtils.copyProperties(user, userDTO);
-        return new ResponseEntity<>(userDTO, HttpStatus.OK);
+        return BaseResponse.success(userDTO);
     }
 
     @PostMapping("update")
-    public ResponseEntity<Object> update(@Valid @RequestBody UserDTO userDTO){
+    public BaseResponse update(@Valid @RequestBody UserDTO userDTO){
         User user = userService.findById(userDTO.getId());
         if (user == null) {
             throw new EntityNotFoundException(User.class, "id", String.valueOf(userDTO.getId()));
         }
         BeanUtils.copyProperties(userDTO, user);
         userService.save(user);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return BaseResponse.success(null);
     }
 
     @PostMapping("create")
-    public ResponseEntity<Object> create(@Valid @RequestBody UserDTO userDTO){
+    public BaseResponse create(@Valid @RequestBody UserDTO userDTO){
         User user = new User();
         BeanUtils.copyProperties(userDTO, user);
         userService.save(user);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return BaseResponse.success(null);
     }
 }

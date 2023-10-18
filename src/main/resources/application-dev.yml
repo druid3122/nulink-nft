@@ -31,31 +31,31 @@ contracts:
   contractList:
     -
       name: 'BlindBox'
-      address: '0xB8d692eAAAaC71684079032410855888A8C1d448'
+      address: '0x00c06AF011FAfEd9228C1abc481391DCf703e4bC'
       enabled: true
     -
       name: 'AddrController'
-      address: '0x96D0c195d39915b43dD7cED865597101FbCed4B0'
-      enabled: false
+      address: '0x1CC1a9292E9FCf2F3E36fe2A062FC2362b6ed555'
+      enabled: true
     -
       name: 'Recommend'
-      address: '0x05AaB61b90d8272CF261063130FD9a5f286CF8cD'
-      enabled: false
+      address: '0x3BbE2A32F650980E4C69896C6aDD02ba9Daa5E56'
+      enabled: true
     -
       name: 'EncloNFT'
-      address: '0x3cdD31F758AFF03055Dc2B991564f118d6faeDCd'
-      enabled: false
+      address: '0xC230B5EA63D76BeB7de92dC7138477Ce96eF90C7'
+      enabled: true
     -
       name: 'ZK'
-      address: '0x645ea2939D46d4848bAd587FD85122A046C6a44B'
-      enabled: false
+      address: '0x291f789Ab72A53eb6a2F10cf964AA7a3E46D8511'
+      enabled: true
     -
       name: 'Gain'
-      address: '0xf98386d94EF06D02Cbc0FB0cAeDc5Ab9cDF46e78'
-      enabled: false
+      address: '0xEF1aD8dADBa9d84d9d4ceb85DA61fBeB43611779'
+      enabled: true
 
 web3j:
-  client-address: http://data-seed-prebsc-1-s2.binance.org:8545
+  client-address: https://bsc-testnet.nodereal.io/v1/6384ee97d5b5400bb6078026d91a2682
   admin-client: true # to manage accounts, enable the admin client
   httpTimeoutSeconds: 35
 
